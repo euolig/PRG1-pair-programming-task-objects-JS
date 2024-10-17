@@ -53,27 +53,58 @@ function getBooksByAuthor(authorName) {
   
 
 function searchByBookName(searchTerm) {
-    
+    let bookName = [];
+
+    for (const book of library) {
+        if (book.title.toLowerCase() === searchTerm.toLowerCase()) {
+            bookName.push (book)
+        }
+    }
+    return bookName;
 }
   
   
 function displayLoanTotals() {
-    
+    let loaned = 0;
+    let shelved = 0;
+
+    for (const book of library){
+        book.isLoaned ? loaned+=1 : shelved += 1
+    }
+    console.log (`Total books on loan: ${loaned}`);
+    console.log (`Total books not on loan: ${shelved}`);
 }
-  
+
   
 function alterBookStatus(bookTitle, newStatus) {
-    
+
+
+    for(const book of library){
+        if(book.title === bookTitle) {
+            book.isLoaned = newStatus
+        }
+    }
 }
   
   
 function addNewBook(title, author, isLoaned) {
-    
+    const newBook = {
+        title: title,
+        author: author,
+        isLoaned: isLoaned
+    }
+    library.push(newBook)
 }
   
 
 function removeBook(bookTitle) {
-    
+
+    for (const book in library){
+        if (library[book].title.toLowerCase() === bookTitle.toLowerCase()){
+            library.splice(book, 1);
+            break; //stops the loop once the book is removed to prevent errors
+        }
+    }  
 }
   
 
@@ -92,8 +123,7 @@ console.log(booksStatus);
 // See loan status of all books    
 loanStatus(library);
 
-
-
+//search for book by name
 
 
 // Leave this code here for automated testing
